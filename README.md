@@ -5,7 +5,8 @@ This Java library provides a parser for the GC logs produced by Oracle JDK 1.7 a
 The library requires Java 1.8.
 
 ## Documentation
-The library is able to parse GC logs produced by using the following major GC logging options:
+###Supported JVM Options
+The library is able to parse the logs produced by using the key GC logging options:
 * -XX:+PrintGC (or -verbose:gc)
 * -XX:+PrintGCDetails
 * -XX:+PrintGCTimeStamps
@@ -22,14 +23,43 @@ The following Oracle JVM's garbage collectors are supported:
 </tr>
 </thead>
 <tbody>
-  <tr><td rowspan="4">Young</td><td>Copy</td><td>-XX:+UseSerialGC</td></tr>
+  <tr><td rowspan="4">New</td><td>Copy</td><td>-XX:+UseSerialGC</td></tr>
   <tr><td>PS Scavenge</td><td>-XX:+UseParallelGC</td></tr>
   <tr><td>ParNew</td><td>-XX:+UseParNewGC</td></tr>
   <tr><td>G1 Young</td><td>-XX:+UseG1GC</td></tr>
   <tr><td rowspan="4">Old</td><td>MarkSweepCompact</td><td>-XX:+UseSerialGC</td></tr>
-  <tr><td>PS MarkSweep</td><td>-XX:+UseParallelOldGC</td></tr>
-  <tr><td>ConcurrentMarkSweep</td><td>-XX:+UseConcMarkSweepGC</td></tr>
+  <tr><td>PS MarkSweep</td><td>-XX:+UseParallelGC<br/>-XX:+UseParallelOldGC</td></tr>
+  <tr><td>ConcurrentMarkSweep<br/>(except iCMS)</td><td>-XX:+UseConcMarkSweepGC</td></tr>
   <tr><td>G1 Mixed</td><td>-XX:+UseG1GC</td></tr>
+</tbody>
+</table>
+
+### Provided Fields
+The parser tries to extract as much information as possible from the log files. All possible fields that may present in the result CSV files are described in the table below. Exact subset of these fields depends on the GC options being used.
+
+<table>
+<thead>
+  <tr><th>Field</th><th>Description</th></tr>
+</thead>
+<tbody>
+  <tr>
+    <td>Type</td>
+    <td>Type of the GC pause event. Possible values are:
+      <ul>
+        <li>N - new (young) generation collection</li>
+        <li>O - old (tenured) generation collection (stop-the-world phase of the concurrent collector)</li>
+        <li>F - full collection</li>
+      </ul>
+    </td>
+  </tr>
+  <tr><td>Date</td><td>Date/time of the GC event</td></tr>
+  <tr><td>Time</td><td>Time passed since JVM start (in seconds)</td></tr>
+  <tr><td>PauseTime</td><td>GC pause time (in seconds)</td></tr>
+  <tr><td>UserPauseTime</td><td>CPU time spent in user space (in seconds)</td></tr>
+  <tr><td>SysPauseTime</td><td>CPU time spent in kernel space (in seconds)</td></tr>
+  <tr><td>RealPauseTime</td><td>Real time (in seconds) spent by GC (rounded value of PauseTime)</td></tr>
+  <tr><td>NewGenPauseTime</td><td>Time spent to collect new generation (in seconds)</td></tr>
+  <tr><td>OldGenPauseTime</td><td>Time spent to collect old generation (in seconds)</td></tr>
 </tbody>
 </table>
 
