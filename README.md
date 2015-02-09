@@ -5,7 +5,7 @@ This Java library provides a parser for the GC logs produced by Oracle JDK 1.7 a
 The library requires Java 1.8.
 
 ## Documentation
-###Supported JVM Options
+#### Supported JVM Options
 The library is able to parse the logs produced by using the key GC logging options:
 * -XX:+PrintGC (or -verbose:gc)
 * -XX:+PrintGCDetails
@@ -34,7 +34,7 @@ The following Oracle JVM's garbage collectors are supported:
 </tbody>
 </table>
 
-### Provided Fields
+#### Provided Fields
 The parser tries to extract as much information as possible from the log files. All possible fields that may present in the result CSV files are described in the table below. Exact subset of these fields depends on the GC options being used.
 
 <table>
@@ -58,10 +58,33 @@ The parser tries to extract as much information as possible from the log files. 
   <tr><td>UserPauseTime</td><td>CPU time spent in user space (in seconds)</td></tr>
   <tr><td>SysPauseTime</td><td>CPU time spent in kernel space (in seconds)</td></tr>
   <tr><td>RealPauseTime</td><td>Real time (in seconds) spent by GC (rounded value of PauseTime)</td></tr>
-  <tr><td>NewGenPauseTime</td><td>Time spent to collect new generation (in seconds)</td></tr>
+  <tr><td>NewGenPauseTime</td><td>Time spent to collect young generation (in seconds)</td></tr>
   <tr><td>OldGenPauseTime</td><td>Time spent to collect old generation (in seconds)</td></tr>
+  <tr><td>MemBefore</td><td>Used heap memory before GC run</td></tr>
+  <tr><td>MemAfter</td><td>Used heap memory after GC run</td></tr>
+  <tr><td>MemTotal</td><td>Overall allocated heap memory</td></tr>
+  <tr><td>NewMemBefore</td><td>Used young generation space before GC run</td></tr>
+  <tr><td>NewMemAfter</td><td>Used young generation space after GC run</td></tr>
+  <tr><td>NewMemTotal</td><td>Overall allocated young generation space</td></tr>
+  <tr><td>EdenMemBefore</td><td>Used Eden space before GC run</td></tr>
+  <tr><td>EdenMemAfter</td><td>Used Eden space after GC run</td></tr>
+  <tr><td>EdenMemTotal</td><td>Overall allocated Eden space</td></tr>
+  <tr><td>SurvivorMemBefore</td><td>Used Survivor space before GC run</td></tr>
+  <tr><td>SurvivorMemAfter</td><td>Used Survivor space after GC run</td></tr>
+  <tr><td>OldMemBefore</td><td>Used old generation space before GC run</td></tr>
+  <tr><td>OldMemAfter</td><td>Used old generation space after GC run</td></tr>
+  <tr><td>OldMemTotal</td><td>Overall allocated old generation space</td></tr>
+  <tr><td>PermMemBefore</td><td>Used permanent generation space before GC run</td></tr>
+  <tr><td>PermMemAfter</td><td>Used permanent generation space after GC run</td></tr>
+  <tr><td>PermMemTotal</td><td>Overall allocated permanent space</td></tr>
+  <tr><td>MetaspaceMemBefore</td><td>Used metaspace before GC run (since Java 8)</td></tr>
+  <tr><td>MetaspaceMemAfter</td><td>Used metaspace after GC run (since Java 8)</td></tr>
+  <tr><td>MetaspaceMemTotal</td><td>Overall allocated metaspace (since Java 8)</td></tr>
+  <tr><td>ConcurrentPhase</td><td>Stop-the-world phase of the concurrent old collector</td></tr>
 </tbody>
 </table>
+
+Memory-related fields are extracted as is and measured either in Kylobytes or Megabytes.
 
 ## Installation
 Run Maven command to build a JAR file:
